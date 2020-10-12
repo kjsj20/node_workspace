@@ -1,0 +1,26 @@
+#wrap{
+    width: 1600px;
+    height: 1000px;
+    margin: auto;
+    background: yellow;
+}
+.header{
+    width: 60%;
+    height: 200px;
+    background: gray;
+}
+.menu{
+    width: 60%;
+    height: 100px;
+    background: orange;
+}
+.content{
+    width: 60%;
+    height: 400px;
+    background: green;
+}
+.footer{
+    width: 60%;
+    height: 300px;
+    background: greenyellow;
+}
