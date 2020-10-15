@@ -27,13 +27,18 @@ var server = http.createServer(function(request, response){
     }else if(urlJson.pathname=="/member/regist"){//가입을 요청하면..
         regist(request, response);
     }else if(urlJson.pathname=="/member/loginForm"){//로그인 폼을 요청하면...
-               
+
     }else if(urlJson.pathname=="/member/list"){//회원 목록을 요청하면..
         getList(request, response);
     }else if(urlJson.pathname=="/member/detail"){//회원 정보 보기를 요청하면..
         getDetail(request, response);
+    }else if(urlJson.pathname =="/member/del"){//회원 탈퇴를 요청하면...
+        del(request, response);
+    }else if(urlJson.pathname == "/member/edit"){//회원 정보 수정을 요청하면..
+        update(request, response);
+    }else if(urlJson.pathname == "/category"){
+        getCategory(request, response);
     }
-
 });
 
 //데이터 베이스 연동인 경우엔 함수로 별도로 정의 
@@ -55,7 +60,6 @@ function registForm(request, response){
             });
         }
     });
-
 }
 
 //회원등록 처리 
@@ -123,12 +127,107 @@ function getList(request, response){
 function getDetail(request,response){
     // console.log("urlJson : ", urlJson.query);
     var member2_id = urlJson.query.member2_id;
-    var sql = "select * from member2 where member2_id =" + member2_id;
-    response.writeHead(200,{"Content-Type":"text/html;charset=utf-8"});
-    response.end(sql);
+    var sql = "select * from member2 where member2_id =?";
+    con.query(sql, [member2_id] ,function(qError, record, fields){
+        if(qError){
+            console.log("계정 조회 실패", error);
+        } else {
+            fs.readFile("./detail.ejs", "utf-8", function(readErr, data){
+                if(readErr){
+                    console.log("detail.ejs 읽기실패", readErr);
+                } else {    
+                    response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+                    response.end(ejs.render(data, {
+                        member:record[0]
+                    }));
+                }
+            });
+        }
+    });
     // con.query(sql, function(error, record, fields){
-
+    //     fs.readFile("./detail.ejs", "utf-8", function(error, data){
+    //         if(error){
+    //             console.log("detail.ejs 읽기 실패", error);
+    //         }else{
+    //             response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"})
+    //             response.end(ejs.render(data,{
+    //                 member: record[0]
+    //             }));
+    //         }
+    //     });
     // });
+}
+
+// 회원 1명 삭제
+function del(request, response){
+    // get 방식으로 전달된 파라미터 받기
+    var member2_id = urlJson.query.member2_id;
+    var sql = "delete from member2 where member2_id = " + member2_id;
+    con.query(sql, function(qError, fields){
+        if(qError){
+            console.log("삭제 실패...", qError);
+        } else {
+            response.writeHead(200, {"Content-Type": "text/html;charset=utf-8"});
+
+            var tag = "<script>";
+            tag += "alert('탈퇴처리되었습니다.');";
+            tag += "location.href = './member/list'";
+            tag += "</script>";
+
+            response.end(tag);
+        }
+    });
+}
+
+function update(request, response){
+    // post로 전송된 파라미터들을 받자!!
+    request.on("data", function(param){
+        var postParam = qs.parse(new String(param).toString());
+
+        // var sql = "update member2 set password ='" +postParam.password+ "' , email='"+postParam.email+"', phone = '"+postParam.phone+"', addr = '"+postParam.addr+"', memo = '"+postParam.memo+"'";
+        // sql += "receive='"+postParam.receive+"' where member2_id = "+ postParam.member2_id;
+        var sql = "update member2 set password = ?, phone = ?, addr = ?, memo = ?";
+        sql += ", receive=? where member2_id = ?";
+        con.query(sql, [
+            postParam.password, 
+            postParam.phone,
+            postParam.addr,
+            postParam.memo,
+            postParam.receive,
+            postParam.member2_id
+        ], function(error, fields){
+            if(error){
+                console.log("수정에 실패하였습니다...");
+            }else{
+                response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+                var tag = "<script>";
+                tag += "alert('수정 완료 하였습니다!');";
+                tag+="location.href='/member/detail?member2_id="+postParam.member2_id+"';";
+                tag += "</script>";
+                response.end(tag);
+            }
+        });
+    });
+}
+
+function getCategory(request, response){
+    var sql = "select * from category";
+    con.query(sql, function(error, record, fields){
+        if(error){
+            console.log("동물 구분 목록 조회 실패", error);
+        }else{
+            fs.readFile("./animal.ejs", "utf-8", function(err,data){
+                if(err){
+                    console.log("animal.ejs 읽기 실패", err);
+                } else {
+                    response.writeHead(200, {"Content-Type":"text/html;charset=utf-8"});
+                    response.end(ejs.render(data,{
+                        categoryArray:record
+                    }));
+                }
+            });
+        }
+    });
 }
 
 //mysql 접속 
