@@ -40,31 +40,41 @@ input[type=button]:hover {
 <script>
     $(function(){
         $($("input[type='button']")[0]).click(function(){
-            location.href = "list.html";
+            location.href = "/notice/list";
         });
 
         $($("input[type='button']")[1]).click(function(){
+          $("form").attr({
+            "method":"post",
+            "action":"/notice/edit"
+          });
+          $("form").submit();
+        });
+
+        $($("input[type='button']")[2]).click(function(){
             $("form").attr({
-              "method" : "post",
-              "action" : "/notice/regist"
+              "method":"post", //전송방법
+              "action":"/notice/del" //요청url
             });
-            $("form").submit();//전송
+            $("form").submit();
         });
     });
 </script>
 </head>
 <body>
 
-<h3>게시물 등록</h3>
+<h3>내용보기</h3>
 
 <div class="container">
-  <!-- form 태그에 default method는 get 이다 -->
   <form>
-    <input type="text" name="title" placeholder="제목">
-    <input type="text" name="writer" placeholder="작성자">
-    <textarea id="subject" name="content" placeholder="내용" style="height:200px"></textarea>
+    <!-- notice_id 파라미터로 사용 -->
+    <input type="hidden" name="notice_id" value = <%=notice.notice_id%>>
+    <input type="text" name="title" value = <%=notice.title%>>
+    <input type="text" name="writer" value = <%=notice.writer%>>
+    <textarea id="subject" name="content" style="height:200px"><%=notice.content%></textarea>
     <input type="button" value="목록으로">
-    <input type="button" value="등록하기">
+    <input type="button" value="수정하기">
+    <input type="button" value="삭제하기">
   </form>
 </div>
 

@@ -26,7 +26,7 @@
             $(function () { //문서가 모두 load되면..
                 $("button").on("click", function () {
                     //글쓰기 폼을 요청한다
-                    location.href = "registForm.html";
+                    location.href = "/registForm.html";
                 });
             });
         </script>
@@ -41,14 +41,18 @@
                 <th>등록일</th>
                 <th>조회수</th>
             </tr>
-
+            <%var n=noticeArray.length;%>
+            <%for(var i=0; i < noticeArray.length; i++){%>
+            <%var notice = noticeArray[i];%>
             <tr>
-                <td>1</td>
-                <td><a href="detail.html">다음주도 비대면 수업</a></td>
-                <td>노동부</td>
-                <td>2020-10-20</td>
-                <td>502</td>
+                <td><%=n%></td>
+                <td><a href="/notice/detail?notice_id=<%=notice.notice_id%>"><%=notice.title%></a></td>
+                <td><%=notice.writer%></td>
+                <td><%=notice.regdate%></td>
+                <td><%=notice.hit%></td>
             </tr>
+            <%n = n -1;%>
+            <%}%>
             <tr>
                 <td colspan="5">
                     <button>글쓰기</button>
