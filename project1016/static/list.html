@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <style>
+            table {
+                border-collapse: collapse;
+                border-spacing: 0;
+                width: 100%;
+                border: 1px solid #ddd;
+            }
+
+            td,
+            th {
+                text-align: left;
+                padding: 16px;
+            }
+
+            tr:nth-child(even) {
+                background-color: #f2f2f2;
+            }
+        </style>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            //버튼을 누르면...
+            $(function () { //문서가 모두 load되면..
+                $("button").on("click", function () {
+                    //글쓰기 폼을 요청한다
+                    location.href = "registForm.html";
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <img src="/images/4.jpg">
+        <table>
+            <tr>
+                <th>No</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>등록일</th>
+                <th>조회수</th>
+            </tr>
+
+            <tr>
+                <td>1</td>
+                <td><a href="detail.html">다음주도 비대면 수업</a></td>
+                <td>노동부</td>
+                <td>2020-10-20</td>
+                <td>502</td>
+            </tr>
+            <tr>
+                <td colspan="5">
+                    <button>글쓰기</button>
+                </td>
+            </tr>
+        </table>
+
+    </body>
+</html>
