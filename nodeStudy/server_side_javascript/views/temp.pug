@@ -1,0 +1,12 @@
+html
+    head
+        title= _title
+    body
+        h1 Hello Pug
+        ul
+            -//pug는 줄바꿈이 일어날 때 마다 tag로 인식함. 
+            -//pug에서 자바스크립트를 사용할땐 앞에 -가 붙어야한다.. 명심하길
+            -for(var i =0; i<5; i++)
+                li coding
+        -//time 이라는 변수나 변수를 사용할땐 꼭 = 을 붙여야한다~
+        div= time
