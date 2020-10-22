@@ -12,6 +12,25 @@ app.set('view engine', 'pug');
 
 //public이라는 directory를 정적인 파일이 있는 위치로 하겠다는 뜻.
 app.use(express.static('public'));
+app.get('/topic/:id', function(request, response){
+    var topics = [
+        'Javascript is.....',
+        'Nodejs is...',
+        'Express is...'
+    ];
+    var output = `
+        <a href ="/topic?id=0">Javascript</a><br>
+        <a href ="/topic?id=1">Nodejs</a><br>
+        <a href ="/topic?id=2">Express</a><br><br>
+        ${topics[request.params.id]}
+    `;
+    response.send(output);
+});
+
+app.get('/topic/:id/:mode', function(request, response){
+    response.send(request.params.id + ', ' + request.params.mode);
+});
+
 app.get('/template', function(request, response){
     response.render('temp', {
         time : Date(),
