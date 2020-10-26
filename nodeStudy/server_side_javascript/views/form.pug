@@ -1,0 +1,13 @@
+doctype html
+html
+    head
+        -//태그에 속성을 지정하고 싶으면 (안에 지정하면됨)
+        meta(charset='utf-8')
+    body
+        form(action='/form_receiver' method='post')
+            p
+                input(type="text" name = 'title')
+            p
+                textarea(name = 'description')
+            p
+                input(type='submit')

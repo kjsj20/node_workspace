@@ -10,8 +10,30 @@ app.locals.pretty = true;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
+//post 방식으로 보낼때 body를 읽지못함.. 그래서 아래 문법으로 설정해줘야함.
+//예전엔 body-parser 라는 npm 모듈을 사용한듯한데 지금은 아래 방법을 사용하는듯함.
+//express 자체에 포함된듯.. body-parser 모듈이..
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
 //public이라는 directory를 정적인 파일이 있는 위치로 하겠다는 뜻.
 app.use(express.static('public'));
+app.get('/form', function(request, response){
+    response.render('form');
+});
+
+app.get('/form_receiver', function(request, response){
+    var title = request.query.title;
+    var description = request.query.description;
+    response.send(title+','+description);
+});
+
+app.post('/form_receiver', function(request, response){
+    var title = request.body.title;
+    var description = request.body.description;
+    response.send(title + ',' + description);
+});
+
 app.get('/topic/:id', function(request, response){
     var topics = [
         'Javascript is.....',
@@ -19,9 +41,9 @@ app.get('/topic/:id', function(request, response){
         'Express is...'
     ];
     var output = `
-        <a href ="/topic?id=0">Javascript</a><br>
-        <a href ="/topic?id=1">Nodejs</a><br>
-        <a href ="/topic?id=2">Express</a><br><br>
+        <a href ="/topic/0">Javascript</a><br>
+        <a href ="/topic/1">Nodejs</a><br>
+        <a href ="/topic/2">Express</a><br><br>
         ${topics[request.params.id]}
     `;
     response.send(output);
