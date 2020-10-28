@@ -1,16 +1,19 @@
 {
   "name": "server_side_javascript",
   "version": "1.0.0",
-  "description": "Server side javascript tutorials",
-  "main": "hello.js",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "node-mysql": "^0.4.2",
+    "pug": "^3.0.0",
+    "uglify-js": "^3.11.4",
+    "underscore": "^1.11.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.17.1",
-    "pug": "^3.0.0",
-    "underscore": "^1.11.0"
-  }
+  "license": "ISC"
 }
