@@ -1,5 +1,4 @@
 var mysql = require("mysql");
-const { values } = require("underscore");
 var conn = mysql.createConnection({
     host : "localhost",
     user : "root",
@@ -46,14 +45,14 @@ conn.query(sql, params,(err, rows, fields) => {
 });
 */
 
-var sql = 'delete from topic where id = ?';
-var params = [1];
-conn.query(sql, params,(err, rows, fields) => {
-    if(err){
-        console.log(err);
-    } else {
-        console.log(rows);
-    }
-});
+// var sql = 'delete from topic where id = ?';
+// var params = [1];
+// conn.query(sql, params,(err, rows, fields) => {
+//     if(err){
+//         console.log(err);
+//     } else {
+//         console.log(rows);
+//     }
+// });
 
 conn.end();
